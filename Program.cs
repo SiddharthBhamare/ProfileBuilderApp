@@ -31,11 +31,12 @@ namespace ProfileBuilderApp
             app.UseMiddleware<TokenValidationMiddleware>();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
 
             //  app.UseHttpsRedirection();
             app.UseAuthentication();
@@ -44,7 +45,8 @@ namespace ProfileBuilderApp
 
             app.MapControllers();
 
-            app.Run();
+            var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+            app.Run($"http://0.0.0.0:{port}");
         }
     }
 }
