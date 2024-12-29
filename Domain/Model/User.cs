@@ -1,32 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ProfileBuilder.Domain.Model
 {
-
-    [Table("users")]
     public class User
     {
-        [Column("userid")]
         public int UserId { get; set; }
-
-        [Column("email")]
         public string Email { get; set; }
-
-        [Column("passwordhash")]
         public string PasswordHash { get; set; }
-
-        [Column("fullname")]
         public string FullName { get; set; }
-
-        [Column("role")]
-        public string Role { get; set; } // "User" or "Admin"
-
-        [Column("createdat")]
+        public string Role { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        [Column("updatedat")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        [JsonIgnore]
+        public Profile Profile { get; set; }
+        public ICollection<Dashboard> Dashboards { get; set; }
+        public ICollection<AuthToken> AuthTokens { get; set; }
     }
-
-
 }

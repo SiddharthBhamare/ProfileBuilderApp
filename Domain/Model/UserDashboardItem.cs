@@ -1,24 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ProfileBuilder.Domain.Model
 {
-    [Table("userdashboarditems")]
     public class UserDashboardItem
     {
-        [Column("userdashboarditemid")]
         public int UserDashboardItemId { get; set; }
-        [Column("dashboardid")]
         public int DashboardId { get; set; }
-        [Column("articleid")]
         public int? ArticleId { get; set; }
-        [Column("photoid")]
         public int? PhotoId { get; set; }
-        [ForeignKey("dashboardid")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        [JsonIgnore]
         public Dashboard Dashboard { get; set; }
-        [ForeignKey("articleid")]
-        public Article? Article { get; set; } = null;
-        [ForeignKey("photoid")]
-        public Photo? Photo { get; set; } = null;
-
+        public Article Article { get; set; }
+        public Photo Photo { get; set; }
     }
 }
