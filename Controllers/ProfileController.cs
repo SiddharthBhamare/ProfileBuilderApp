@@ -55,10 +55,9 @@ namespace ProfileBuilder.Controllers
             };
             var dashboard = new Dashboard
             {
-                UserId = profileRequest.UserId,
-                Title ="Create Title",
+                UserId = profileRequest.UserId
+                
             };
-            _dbContext.Dashboards.Add(dashboard);//Dashboard should be created once profile is created
             _dbContext.Profiles.Add(profile);
             _dbContext.SaveChanges();
             return Ok("New user profile is created.");
