@@ -22,10 +22,18 @@ namespace ProfileBuilder.Controllers
             var user = _dbContext.Users.Where(u => u.UserId == userid).FirstOrDefault();
             if (user == null)
                 return NotFound("User not found.");
-            var dashboardid = _dbContext.Dashboards.Where(x => x.UserId == user.UserId).FirstOrDefault()?.DashboardId;
-            if (dashboardid > 0)
+            try
             {
-                var articles = _dbContext.Articles.Where(p => p.DashboardId == dashboardid).ToList();
+                var test = _dbContext.Dashboards.FirstOrDefault();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            var dashboard = _dbContext.Dashboards?.FirstOrDefault();
+            if (dashboard != null && dashboard.DashboardId > 0)
+            {
+                var articles = _dbContext.Articles.Where(p => p.DashboardId == dashboard.DashboardId).ToList();
                 return Ok(articles);
             }
             else
@@ -52,7 +60,13 @@ namespace ProfileBuilder.Controllers
                 Content = articleRequest.Content,
                 Title = articleRequest.Title
             };
+            var dashboarditem = new UserDashboardItem
+            {
+                Article = article,
+                DashboardId = article.DashboardId
+            };
             _dbContext.Articles.Add(article);
+            _dbContext.UserDashboardItems.Add(dashboarditem);
             _dbContext.SaveChanges();
             return Ok("New article is created.");
         }
