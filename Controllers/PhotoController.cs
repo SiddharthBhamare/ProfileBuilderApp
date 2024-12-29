@@ -52,15 +52,7 @@ namespace ProfileBuilder.Controllers
                 PhotoUrl = upload.PhotoUrl,
                 Description = upload.Description
             };
-            var userDashboard = new UserDashboardItem
-            {
-                Photo = photo,
-                DashboardId = photo.DashboardId
-            };
-
             _dbContext.Photos.Add(photo);
-            _dbContext.UserDashboardItems.Add(userDashboard);
-
             _dbContext.SaveChanges();
             return Ok("Photo uploaded.");
         }
