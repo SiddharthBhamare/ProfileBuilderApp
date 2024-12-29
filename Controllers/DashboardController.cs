@@ -23,11 +23,8 @@ namespace ProfileBuilder.Controllers
            
             if (dashboard == null)
                 return NotFound("Dashboard not found.");
-            var DashboardUpdates = new Dictionary<DateTime,object>();
-            foreach (var item in dashboard.Articles)
-            {
-
-            }
+            var userDashboardItems = _dbContext.UserDashboardItems.Where(x => x.DashboardId == dashboard.DashboardId).ToList();
+            dashboard.UserDashboardItems = userDashboardItems;
             return Ok(dashboard);
         }
     }
